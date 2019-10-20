@@ -1,0 +1,20 @@
+version: "3.7"
+services:
+  web:
+    image: nginx
+    expose:
+      - "80"
+  loadbalancer:
+    image: eeacms/haproxy
+    depends_on:
+      - web
+    environment:
+      BACKENDS: web
+      DNS_ENABLED: "true"
+      LOG_LEVEL: "info"
+      BALANCE: roundrobin
+    ports:
+      - "80:5000"
+      - "1936:1936"
+    expose:
+      - "80"
