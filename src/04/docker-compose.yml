@@ -1,20 +1,22 @@
-version: "3.7"
+version: '3.7'
+
 services:
-  web:
-    image: nginx
-    expose:
-      - "80"
-  loadbalancer:
-    image: eeacms/haproxy
-    depends_on:
-      - web
-    environment:
-      BACKENDS: web
-      DNS_ENABLED: "true"
-      LOG_LEVEL: "info"
-      BALANCE: roundrobin
-    ports:
-      - "80:5000"
-      - "1936:1936"
-    expose:
-      - "80"
+    web:
+        image: nginx:latest
+        ports:
+            - "8080:80"
+        volumes:
+            - ./code:/code
+            - ./site.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - code-network
+    php:
+        image: php:fpm
+        volumes:
+            - ./code:/code
+        networks:
+            - code-network
+
+networks:
+    code-network:
+        driver: bridge
