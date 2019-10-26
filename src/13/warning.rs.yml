@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: webapp
+  labels:
+    app: webapp
+    tier: front
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: front
+  template:
+    metadata:
+      labels:
+        tier: front
+    spec:
+      containers:
+      - name: webapp
+        image: gcr.io/google_samples/gb-frontend:v3
