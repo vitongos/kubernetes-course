@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: countdown
+spec:
+  parallelism: 1
+  completions: 1
+  template:
+    metadata:
+      name: countdown
+    spec:
+      containers:
+      - name: counter
+        image: centos:7
+        command:
+         - "bin/bash"
+         - "-c"
+         - "for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; sleep 4; done"
+         # - "for i in 9 8 7 6 5 4 3 2 1 ; do echo $i ; if (($i == 4)); then exit 1; fi; sleep 4; done"
+      restartPolicy: Never
